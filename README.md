@@ -18,3 +18,21 @@ Next Steps:
 
 1. 一边读大图，一边 resize，训练太慢。尝试用 tf.records 优化 或者预先 resize 图片
 2. noisy label 很多，试一下 learning with noisy label (LNL) 模型
+
+
+## 数据预处理
+
+1. 删除无效图片 （ filesize < 10k )
+2. 非 RGB 模式到转为 RBG，保证 channel 数一致
+2. resize 到 256x256，丢弃读取失败到图片. `image file is truncated (x bytes not processed)`
+
+
+```bash
+$ cd /home/jackon/datasets/porn_hot_images/original_images
+$ find . -type f -size -10k -exec mv {} ../invalid/ \;
+$ time python resize_images.py
+```
+
+resize 的速度是 每 30 秒 1000 张图片，
+
+首批 3 个 类别共约 100k 张图片，耗时 50min
