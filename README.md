@@ -16,8 +16,8 @@ total timecost: ~6min
 
 Next Steps:
 
-x 一边读大图，一边 resize，训练太慢。尝试用 tf.records 优化 或者预先 resize 图片
-x noisy label 很多，试一下 learning with noisy label (LNL) 模型
+- [x] 一边读大图，一边 resize，训练太慢。尝试用 tf.records 优化 或者预先 resize 图片
+- [x] noisy label 很多，试一下 learning with noisy label (LNL) 模型
 
 
 ## 数据预处理
@@ -74,6 +74,6 @@ resize 处理的速度是 每 30 秒 1000 张图片，
 
 Next Steps:
 
-o 用筛出的 30% 高质量 label 数据重新训练模型。
-o 用新模型找把握最大的 false label，甚至预测正确的 label。
-o 将修正过的数据加入训练集合，重复以上步骤
+- [ ] 用筛出的 30% 高质量 label 数据重新训练模型。
+- [ ] 用新模型找把握最大的 false label，甚至预测正确的 label。
+- [ ] 将修正过的数据加入训练集合，重复以上步骤
