@@ -25,15 +25,21 @@ if not os.path.exists(IMAGES_ROOT):
 if not os.path.exists(INFO_ROOT):
     os.makedirs(INFO_ROOT)
 
+
 def get_dom_texts(dom, xpath_ptn):
     node = dom.xpath(xpath_ptn)
     texts = [i.strip() for i in node[0].itertext() if i.strip()]
     return texts
 
 
-def fetch_album(album_id):
+def fetch_album(album_id, task_manager):
     url = 'https://www.lanvshen.com/a/%s/' % album_id
     html = get_url_text(url)
+
+    if html is None:
+        return
+    # print(html[:100])
+    task_manager.feed_tasks(html)
 
     dom = etree.HTML(html)
     meta_text = '\n'.join(get_dom_texts(dom, '/html/body/div[2]'))
@@ -48,15 +54,15 @@ def fetch_album(album_id):
     meta_text = ptn_key_value_splitter.sub(': ', meta_text)
     meta_text = ptn_line_leader.sub('# ', meta_text)
 
-    print(meta_text)
-    image_urls = []
+    # print(meta_text)
+    # image_urls = []
 
     continuous_failed_cnt = 0
     for i in range(MAX_IMAGES_PER_ALBUM):
 
         seq = i + 1
         image_url = image_url_ptn % (album_id, seq)
-        if i and i % 10 == 0:
+        if i and i % 100 == 0:
             print('fetching image %s. %s' % (seq, image_url))
 
         content, ext = get_url_binary(image_url)
